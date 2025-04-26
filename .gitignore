@@ -1,0 +1,17 @@
+# Ignore everything
+*
+
+# Unignore top level files
+!.gitignore
+!Cargo.toml
+!index.*
+!README.md
+!LICENSE-*
+
+# Unignore source files
+!src
+!src/**
+
+# Unignore fonts
+!fonts
+!fonts/**
