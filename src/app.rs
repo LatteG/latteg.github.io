@@ -1,13 +1,14 @@
 use spell_card::{Area, CastTime, Defence, Heightened, RollResult, SpellCard, SpellOverview, SpellType};
+use spell_book::SpellBook;
 use yew::prelude::*;
-use yew_hooks::{use_local_storage, UseLocalStorageHandle};
 
 mod spell_card;
+mod spell_book;
 
 #[function_component(App)]
 pub fn app() -> Html {
     let cards: Vec<SpellCard> = vec![
-        SpellCard { 
+        SpellCard {
             spell_name: "Lightningbolt".to_string(),
             cast_time: CastTime::Reaction,
             spell_type: SpellType::Cantrip,
@@ -36,15 +37,11 @@ pub fn app() -> Html {
                              Heightened::Single(5, "Increase persistent damage by 1d6".to_string())]
         }
     ];
-    // let spell_card: SpellCard = cards[0].clone();
-    // let storage: UseLocalStorageHandle<String> = use_local_storage::<String>(spell_card.spell_name.clone());
-    // storage.set(serde_json::to_string(&spell_card).unwrap());
+
     html! {
         <main>
             <h1>{ "My PF2e Spellbook" }</h1>
-            {cards.iter().map(|card| {
-                card.to_html()
-            }).collect::<Html>()}
+            <SpellBook spells={cards} />
         </main>
     }
 }
