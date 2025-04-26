@@ -13,6 +13,7 @@ pub fn app() -> Html {
             cast_time: CastTime::Reaction,
             spell_type: SpellType::Cantrip,
             spell_level: 1,
+            link: "https://2e.aonprd.com/Spells.aspx?ID=1509".to_string(),
             traits: format_string_vec(vec!["Lightning"]),
             overview: vec![SpellOverview::Range(30),
                         SpellOverview::Targets("1 or 2 creatures".to_string()),
@@ -26,6 +27,7 @@ pub fn app() -> Html {
             cast_time: CastTime::Triple,
             spell_type: SpellType::Spell,
             spell_level: 3,
+            link: "https://2e.aonprd.com/Spells.aspx?ID=1565".to_string(),
             traits: format_string_vec(vec!["Fire", "AoE"]),
             overview: vec![SpellOverview::Range(20),
                            SpellOverview::Area(Area::Burst(15))],
@@ -35,6 +37,20 @@ pub fn app() -> Html {
                               RollResult::CriticalFailure("The creature takes double damage and 3d6 persistent fire damage".to_string())],
             heightened: vec![Heightened::Repeat(1, "Increase damage by 1d6".to_string()),
                              Heightened::Single(5, "Increase persistent damage by 1d6".to_string())]
+        },
+        SpellCard {
+            spell_name: "Thunderstorm".to_string(),
+            cast_time: CastTime::Double,
+            spell_type: SpellType::Spell,
+            spell_level: 3,
+            link: "https://2e.aonprd.com/Spells.aspx?ID=1509".to_string(),
+            traits: format_string_vec(vec!["Lightning"]),
+            overview: vec![SpellOverview::Range(30),
+                        SpellOverview::Targets("1 or 2 creatures".to_string()),
+                        SpellOverview::Defence(Defence::Fortitude)],
+            spell_effect: "Electric arcs jump between you and the target(s).".to_string(),
+            roll_effect: vec![],
+            heightened: vec![Heightened::Repeat(2, "Increase damage by 1d4".to_string())]
         }
     ];
 

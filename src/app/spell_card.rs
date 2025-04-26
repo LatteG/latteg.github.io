@@ -189,6 +189,7 @@ pub struct SpellCard {
     pub cast_time: CastTime,
     pub spell_type: SpellType,
     pub spell_level: u8,
+    pub link: String,
     // Middle
     pub traits: Vec<String>,
     pub overview: Vec<SpellOverview>,
@@ -205,6 +206,7 @@ impl SpellCard {
             cast_time={self.cast_time.clone()}
             spell_type={self.spell_type.clone()}
             spell_level={self.spell_level.clone()}
+            link={self.link.clone()}
             traits={self.traits.clone()}
             overview={self.overview.clone()}
             spell_effect={self.spell_effect.clone()}
@@ -222,6 +224,7 @@ pub fn SpellCardHtml(props: &SpellCard) -> Html {
         cast_time,
         spell_type,
         spell_level,
+        link,
         // Middle
         traits,
         overview,
@@ -241,6 +244,7 @@ pub fn SpellCardHtml(props: &SpellCard) -> Html {
                 cast_time={cast_time.clone()}
                 spell_type={spell_type.clone()}
                 spell_level={spell_level}
+                link={link.clone()}
             />
             <hr/>
             // # Middle
@@ -305,6 +309,7 @@ pub struct SpellHeaderProps {
     // Left part
     pub spell_name: String,
     pub cast_time: CastTime,
+    pub link: String,
 
     // Right part
     pub spell_type: SpellType,
@@ -317,6 +322,7 @@ pub fn SpellHeader(props: &SpellHeaderProps) -> Html {
         // Left part
         spell_name,
         cast_time,
+        link,
 
         // Right part
         spell_type,
@@ -326,7 +332,7 @@ pub fn SpellHeader(props: &SpellHeaderProps) -> Html {
     html! {
         <div class="spell-header">
             <div>
-                {spell_name}{" "}if let CastTime::Longer(cast_time) = cast_time {
+                <a href={link.clone()} target="blank">{spell_name}</a>{" "}if let CastTime::Longer(cast_time) = cast_time {
                     {cast_time}
                 } else {
                     <span class="action">{cast_time.to_string()}</span>
