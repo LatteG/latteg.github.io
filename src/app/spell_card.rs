@@ -11,6 +11,7 @@ pub enum CastTime {
     Double,
     Triple,
     Longer(String),
+    Range(u8, u8)
 }
 
 impl Display for CastTime {
@@ -22,7 +23,17 @@ impl Display for CastTime {
             CastTime::Double   => write!(f, "D"),
             CastTime::Triple   => write!(f, "T"),
             CastTime::Longer(duration) => write!(f, "{}", duration),
+            CastTime::Range(min, max) => write!(f, "{}-{}", u8_to_cast_time(min), u8_to_cast_time(max)),
         }
+    }
+}
+
+fn u8_to_cast_time(val:&u8) -> CastTime {
+    match val {
+        1u8 => CastTime::Single,
+        2u8 => CastTime::Double,
+        3u8 => CastTime::Triple,
+        _ => panic!("Unexpected integer to cast time conversion!")
     }
 }
 
@@ -31,7 +42,6 @@ pub enum SpellType {
     Cantrip,
     Focus,
     Spell,
-    Innate,
     Ritual,
 }
 
@@ -41,7 +51,6 @@ impl Display for SpellType {
             SpellType::Cantrip => "Cantrip",
             SpellType::Focus   => "Focus",
             SpellType::Spell   => "Spell",
-            SpellType::Innate  => "Innate",
             SpellType::Ritual  => "Ritual",
         };
         write!(f, "{}", display_str)
@@ -100,6 +109,16 @@ impl Display for Area {
             Area::Emanation(aoe)                 => write!(f, "{}ft emanation", aoe),
             Area::Line(length, None)             => write!(f, "{}ft line", length),
             Area::Line(length, Some(width)) => write!(f, "{}ft long and {}ft wide line", length, width),
+        }
+    }
+}
+
+impl Area {
+    pub fn get_aoe_val(&self) -> (u8, Option<u8>) {
+        match self {
+            Area::Burst(aoe) | Area::Cone(aoe) |
+            Area::Emanation(aoe) => (*aoe, None),
+            Area::Line(aoe_0, aoe_1) => (*aoe_0, *aoe_1),
         }
     }
 }
@@ -213,6 +232,16 @@ impl SpellCard {
             roll_effect={self.roll_effect.clone()}
             heightened={self.heightened.clone()}
         />}
+    }
+
+    pub fn get_overview_element(&self, overview_type:&str) -> Option<SpellOverview> {
+        let overtype_string: String = overview_type.to_string();
+        for elem in self.overview.clone() {
+            if overtype_string == elem.to_string() {
+                return Some(elem);
+            }
+        }
+        None
     }
 }
 
